@@ -13,15 +13,15 @@ import imageio
 
 PATH = "data/train/labels/"
 
-# load images, filter class labels and save
+# load images, filter class labels and save to disk
 for i in range(242, 301):
     img = plt.imread(PATH + str(i) + ".png")
     img = img[..., 0]
     img = np.where(img < 1, 0, img)
-
     imageio.imwrite(PATH + str(i) + ".png", img)
 
-def plot(X):
+
+def loop_images(img_arr):
     # for storing and displaying the animated images
     frames = []
     fig = plt.figure()
@@ -30,8 +30,8 @@ def plot(X):
     plt.xlabel('Lateral extent (mm)', fontsize=12)
     plt.ylabel('Depth (mm)', fontsize=12)
 
-    for i in range(len(X)):
-        frames.append([plt.imshow(X[i, :, :], cmap="gray", animated=True)])
+    for i in range(len(img_arr)):
+        frames.append([plt.imshow(img_arr[i, :, :], cmap="gray", animated=True)])
 
     cbar = plt.colorbar()
     cbar.set_label('Grayscale intensity', fontsize=11)
@@ -42,6 +42,6 @@ def plot(X):
 
 answer = input("Plot data?? [Y/N]? ").lower()
 if answer == "y":
-    plot(X)
+    loop_images(X)
 
 
